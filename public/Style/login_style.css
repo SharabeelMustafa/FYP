@@ -1,0 +1,43 @@
+
+ body{
+   background-image: url("../src/bg.jpg");
+   justify-content: center;
+ }  
+ 
+ .busImg{
+
+   background-image: url("../src/bus\ logo\ \(1\).png");
+   background-repeat: no-repeat;
+   
+   padding-bottom: 200px;
+   
+ }
+
+ .mar{
+  margin-left: 50px;
+ }
+
+ .myc{
+
+   margin-top: 22%;
+ }
+
+ .mxc{
+
+  margin-left: 20%;
+}
+
+.mxc1{
+
+  margin-left: 23%;
+}
+.mxc2{
+
+  margin-left: 52%;
+}
+.color-white{
+  color: white;
+}
+.contorn-w{
+  width: 5px;
+}
