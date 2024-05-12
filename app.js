@@ -95,25 +95,25 @@ app.post('/login/confirm', (req, res) => {
 });
 
 
-// app.get('/student_dashboard',function (req,res){
-//   const userId = req.session.userId;
-//    //console.log(userId);
-//   const selectQuery_student = 'SELECT * FROM student WHERE reg_number = ?';
-//   con.query(selectQuery_student, [userId], (err, result) => {
-//     if (err) throw err;
-//      //console.log(result);
-//       const selectQuery_si_notification='SELECT * FROM si_notification WHERE reg_number = ? '; 
-//      con.query(selectQuery_si_notification, [userId], (err, result1) => {
-//       if (err) throw err;
-//        //console.log(result);
+app.get('/student_dashboard',function (req,res){
+  const userId = req.session.userId;
+   //console.log(userId);
+  const selectQuery_student = 'SELECT * FROM student WHERE reg_number = ?';
+  con.query(selectQuery_student, [userId], (err, result) => {
+    if (err) throw err;
+     //console.log(result);
+      const selectQuery_si_notification='SELECT * FROM si_notification WHERE reg_number = ? '; 
+     con.query(selectQuery_si_notification, [userId], (err, result1) => {
+      if (err) throw err;
+       //console.log(result);
    
      
-//     const currentDate = new Date()
-//     res.render("student_dashboard", {student : result[0],notification : result1,currentDate});
-//     });
-//   });
+    const currentDate = new Date()
+    res.render("student_dashboard", {student : result[0],notification : result1,currentDate});
+    });
+  });
 
-// })
+})
 
 
 
