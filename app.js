@@ -56,7 +56,11 @@ app.get('/',function (req,res){
 })
 
 app.get('/admin',function(req,res){
-  res.render('admin_dashboard')
+  res.render('admin_dashboard');
+})
+
+app.get('/admin_sn' ,function(req,res){
+  res.render('admin_send_notfi');
 })
 
 app.get('/dell_si_notif/:N_Id', function(req, res) {
