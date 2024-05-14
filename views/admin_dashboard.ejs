@@ -22,11 +22,9 @@
 
             <div class="d-flex justify-content-between bg-primary rounded-3 p-3 gap-2 card-shadow">
                 <div class="py-3">
-                    <% let fullString = currentDate.toString(); %>
-                     <% let desiredPart = fullString.substring(0, 21); %>
-                   
-                    <p class="small text-white my-5"><%= desiredPart%></p>
-                    <h2 class="mb-0 text-white">Welcome ,<%= student.name %> !</h2>
+                  
+                    <p class="small text-white my-5">may 13,2024 </p>
+                    <h2 class="mb-0 text-white">Welcome Admin !</h2>
                     <p class="mb-0 text-white">Always stay updated in your Bus portal</p>
                 </div>
                 <div class="me-2">
@@ -37,20 +35,20 @@
                 <div class="col-4">
                     <div class="d-flex justify-content-between bg-primary rounded-3 p-3 gap-2 card-shadow">
                         <div class="">
-                            <h2 class="mb-lg-5 text-white">Bus info </h2>
-                            <button class="btn btn-primary bg-dark btn-blue">view</button>
+                            <h2 class=" text-white">Send  </h2>
+                            <h2 class="text-white"> Notification !</h2>  
                         </div>
                         <div class="me-2">
-                            <!-- <img width="246px" height="189px " src="./assets/images/busImage.png" alt="" /> -->
+                            <img width="136px" height="130px " src="./assets/images/arcticons_messages.png" alt="" /> 
                         </div>
                     </div>
                     <div class="d-flex justify-content-between bg-primary rounded-3 p-3 gap-2 card-shadow mt-3">
                         <div class="">
-                            <h2 class="mb-lg-5 text-white">Bus info </h2>
-                            <button class="btn btn-primary bg-dark btn-blue w-75">view</button>
+                            <h2 class="mb-lg-5 text-white">Aplication For Aprovel !</h2>
+                            
                         </div>
                         <div class="me-2">
-                            <!-- <img width="246px" height="189px " src="./assets/images/busImage.png" alt="" /> -->
+                            <img width="126px" height="110px " src="./assets/images/Frame 35.png" alt="" />
                         </div>
                     </div>
                 </div>
@@ -63,33 +61,25 @@
                             <div class="row overflow-auto  flex-nowrap" style="height: 250px;"
                                 bis_skin_checked="1">
                                 
-                              <% notification.forEach(notif =>{ %>
-
+                              
                           
                                 <div class="col-lg-3 my-3">
                                     <div class="bg-white card-Shadow rounded-2 mb-3 p-2 "style="height:200px; width: 200px;" bis_skin_checked="1">
                                         
-                                        <a  href="/dell_si_notif/<%=notif.sin_id%>">
+                                        <a  href="">
                                             <img src="assets/images/icons/close.svg" height="10px" width="10px" alt="" style="float:right"> 
                                         </a>
                                         
-                        
                                         <div class="m-2">
                                             
-                                            <h5><%=notif.heading %></h5>
-                                            <p><%=notif.note %></p>
+                                            <h5>Welcome</h5>
+                                            <p>potel is for you</p>
                                             <br>
-                                          
-                                            <% let fullString = notif.update_at.toString(); %>
-                                            <% let desiredPart = fullString.substring(0, 21); %>
-                                                     
-                                            <p><%=desiredPart %></p>
+                                            <p>may 13,204</p>
                                         </div>
                                        
                                     </div>
                                 </div>
-                             
-                             <% }); %>
                             </div>
                         </div>
                     </div>

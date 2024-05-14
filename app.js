@@ -55,8 +55,11 @@ app.get('/',function (req,res){
   res.render('login');   
 })
 
+app.get('/admin',function(req,res){
+  res.render('admin_dashboard')
+})
 
-app.get('/c/:N_Id', function(req, res) {
+app.get('/dell_si_notif/:N_Id', function(req, res) {
   const n_Id = req.params.N_Id; // Notification ID to delete
   const userId = req.session.userId; // Current user's ID
   
