@@ -101,74 +101,19 @@
 
                                 <div class=" my-3 ">
                                     <div class="bg-white card-Shadow rounded-2  p-2 overflow-scroll"  style="height:270px;" bis_skin_checked="1">
-                                                 
-                                          <div class="input-group mb-3">
-                                             <div class="input-group-text">
-                                                 <input class="form-check-input mt-0" type="checkbox" value=""     aria-label="Checkbox for following text input">
-                                             </div>
-                                             <div class="form-control" aria-label="Text input with checkbox">
-                                                <h5>SP21-BCS-053</h5>
-                                                
-                                             </div> 
-                                          </div>
-                                          <div class="input-group mb-3">
-                                            <div class="input-group-text">
-                                                <input class="form-check-input mt-0" type="checkbox" value=""     aria-label="Checkbox for following text input">
-                                            </div>
-                                            <div class="form-control" aria-label="Text input with checkbox">
-                                               <h5>SP21-BCS-054</h5>
-                                               
-                                            </div> 
-                                         </div>
-                                         <div class="input-group mb-3">
-                                            <div class="input-group-text">
-                                                <input class="form-check-input mt-0" type="checkbox" value=""     aria-label="Checkbox for following text input">
-                                            </div>
-                                            <div class="form-control" aria-label="Text input with checkbox">
-                                               <h5>SP21-BCS-055</h5>
-                                               
-                                            </div> 
-                                         </div>
-                                         <div class="input-group mb-3">
-                                            <div class="input-group-text">
-                                                <input class="form-check-input mt-0" type="checkbox" value=""     aria-label="Checkbox for following text input">
-                                            </div>
-                                            <div class="form-control" aria-label="Text input with checkbox">
-                                               <h5>SP21-BCS-056</h5>
-                                               
-                                            </div> 
-                                         </div>
+                                     <% dat.forEach(d=>{ %>
 
                                          <div class="input-group mb-3">
                                             <div class="input-group-text">
                                                 <input class="form-check-input mt-0" type="checkbox" value=""     aria-label="Checkbox for following text input">
                                             </div>
                                             <div class="form-control" aria-label="Text input with checkbox">
-                                               <h5>SP21-BCS-053</h5>
+                                               <h5><%=d.reg_number %></h5>
                                                
                                             </div> 
                                          </div>
 
-                                         <div class="input-group mb-3">
-                                            <div class="input-group-text">
-                                                <input class="form-check-input mt-0" type="checkbox" value=""     aria-label="Checkbox for following text input">
-                                            </div>
-                                            <div class="form-control" aria-label="Text input with checkbox">
-                                               <h5>SP21-BCS-053</h5>
-                                               
-                                            </div> 
-                                         </div>
-
-                                         <div class="input-group mb-3">
-                                            <div class="input-group-text">
-                                                <input class="form-check-input mt-0" type="checkbox" value=""     aria-label="Checkbox for following text input">
-                                            </div>
-                                            <div class="form-control" aria-label="Text input with checkbox">
-                                               <h5>SP21-BCS-053</h5>
-                                               
-                                            </div> 
-                                         </div>
-
+                                    <% }); %>
                                          
 
                                     </div>   

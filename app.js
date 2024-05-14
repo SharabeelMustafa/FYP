@@ -60,12 +60,17 @@ app.get('/admin',function(req,res){
 })
 
 app.get('/admin_sn' ,function(req,res){
-  res.render('admin_send_notfi');
+  con.query('SELECT * FROM student',function(err,result){
+    if(err) throw err;
+    res.render('admin_send_notfi',{dat: result});
+
+  });
+ 
 })
 
 app.get('/dell_si_notif/:N_Id', function(req, res) {
   const n_Id = req.params.N_Id; // Notification ID to delete
-  const userId = req.session.userId; // Current user's ID
+  //const userId = req.session.userId; // Current user's ID
   
   con.query('DELETE FROM si_notification WHERE sin_id = ?', [n_Id], (err) => {
     if (err) throw err;
