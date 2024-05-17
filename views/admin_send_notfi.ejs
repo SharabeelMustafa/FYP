@@ -32,9 +32,10 @@
             </div>
 
 
-            <div class="row  flex-nowrap mt-3 " >
+            <div class="row  flex-nowrap mt-3" >
                 <div class="col-2">
-                    <div class="d-flex justify-content-between bg-primary rounded-3 mt-5 py-2 card-shadow">
+                    <a href="/admin_sn" class="text-decoration-none">
+                    <div class="d-flex justify-content-between bg-primary rounded-3 mt-4 py-2 card-shadow">
                         <div class="mx-2">
                             <h44 class=" text-white">To Student</h44>
                         </div>
@@ -42,6 +43,9 @@
                              <img width="40px" height="30px " src="assets/images/Student.png" />-->
                         </div>
                     </div>
+                    </a>
+
+                    <a href="/admin_sn_dc" class="text-decoration-none">
                     <div class="d-flex justify-content-between bg-primary rounded-3 mt-2 py-2 card-shadow">
                         <div class="mx-2">
                             <h44 class=" text-white">To Driver </h44>
@@ -50,6 +54,9 @@
                              <img width="40px" height="30px " src="assets/images/arcticons_messages.png" alt=""/>-->
                         </div>
                     </div>
+                    </a>
+
+                    <a href="/admin_sn_fc" class="text-decoration-none">
                     <div class="d-flex justify-content-between bg-primary rounded-3 mt-2 py-2  card-shadow">
                         <div class="mx-2">
                             <h44 class=" text-white">To Facality </h44>
@@ -58,6 +65,9 @@
                              <img width="40px" height="30px " src="assets/images/2.png" alt="" />  -->
                         </div>
                     </div>
+                    </a>
+
+                    <a href="/admin_sn_bc" class="text-decoration-none">
                     <div class="d-flex justify-content-between bg-primary rounded-3 mt-2 py-2 card-shadow">
                         <div class="mx-2">
                             <h44 class=" text-white">On Bus</h44>
@@ -66,6 +76,9 @@
                              <img width="40px" height="30px " src="assets/images/buslogo.png" alt="" />  -->
                         </div>
                     </div>
+                    </a>
+
+                    <a href="/admin_sn_rc" class="text-decoration-none">    
                     <div class="d-flex justify-content-between bg-primary rounded-3 mt-2  py-2 card-shadow">
                         <div class="mx-2">
                             <h44 class=" text-white">On Route</h44>
@@ -74,7 +87,19 @@
                              <img width="40px" height="30px " src="assets/images/Frame 35.png" alt="" />  -->
                         </div>
                     </div>
-                    
+                    </a >                
+
+
+                    <a href="/admin_sn_gc" class="text-decoration-none">
+                    <div class="d-flex justify-content-between bg-primary rounded-3 mt-2  py-2 card-shadow">
+                        <div class="mx-2">
+                            <h44 class=" text-white">Gernal</h44>
+                        </div>
+                        <div class="me-2">
+                             <img width="40px" height="30px " src="assets/images/Frame 35.png" alt="" />  -->
+                        </div>
+                    </div>
+                    </a>
                 </div>
                 <div class="col-6" bis_skin_checked="1">
                     <div class="bg-primary card-Shadow rounded-2  p-1 py-2 px-4 ">
@@ -101,7 +126,20 @@
 
                                 <div class=" my-3 ">
                                     <div class="bg-white card-Shadow rounded-2  p-2 overflow-scroll"  style="height:270px;" bis_skin_checked="1">
-                                     <% dat.forEach(d=>{ %>
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-text">
+                                                <input class="form-check-input mt-0" type="checkbox" value=""     aria-label="Checkbox for following text input">
+                                            </div>
+                                            <div class="form-control" aria-label="Text input with checkbox">
+                                               <h5>Select all</h5>
+                                               
+                                            </div> 
+                                         </div>
+
+                                     
+                                     
+                                        <% dat.forEach(d=>{ %>
 
                                          <div class="input-group mb-3">
                                             <div class="input-group-text">

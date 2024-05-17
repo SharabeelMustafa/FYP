@@ -52,8 +52,19 @@ app.use(session({
 //rount 
 
 app.get('/',function (req,res){
-  res.render('login');   
+
+    
+  con.query('SELECT * FROM driver',function(err, result){
+    if (err) throw err;
+    con.query('SELECT * FROM route' ,function(err, result1){
+      if(err) throw err;
+      res.render('login',{driver : result , route:result1});   
+    }) 
+
+  })
 })
+
+
 
 app.get('/admin',function(req,res){
   res.render('admin_dashboard');
@@ -67,6 +78,53 @@ app.get('/admin_sn' ,function(req,res){
   });
  
 })
+
+app.get('/admin_sn_dc' ,function(req,res){
+  con.query('SELECT * FROM student',function(err,result){
+    if(err) throw err;
+    res.render('admin_send_notfi',{dat: result});
+
+  });
+ 
+})
+
+app.get('/admin_sn_fc' ,function(req,res){
+  con.query('SELECT * FROM student',function(err,result){
+    if(err) throw err;
+    res.render('admin_send_notfi',{dat: result});
+
+  });
+ 
+})
+
+app.get('/admin_sn_bc' ,function(req,res){
+  con.query('SELECT * FROM student',function(err,result){
+    if(err) throw err;
+    res.render('admin_send_notfi',{dat: result});
+
+  });
+ 
+})
+
+app.get('/admin_sn_rc' ,function(req,res){
+  con.query('SELECT * FROM student',function(err,result){
+    if(err) throw err;
+    res.render('admin_send_notfi',{dat: result});
+
+  });
+ 
+})
+
+app.get('/admin_sn_gc' ,function(req,res){
+  con.query('SELECT * FROM student',function(err,result){
+    if(err) throw err;
+    res.render('admin_send_notfi',{dat: result});
+
+  });
+ 
+})
+
+
 
 app.get('/dell_si_notif/:N_Id', function(req, res) {
   const n_Id = req.params.N_Id; // Notification ID to delete

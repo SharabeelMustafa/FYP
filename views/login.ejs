@@ -54,27 +54,30 @@
       </div>
       <div class="row">
         <div class="col-7  rounded-3  ">
-           <div class="border-bottom border-white"><h1 class="color-white">rount info</h1></div>
-         <div class="d-flex">
-           <div class="w-25 border   mx-2 my-3 bg-white">
-            <p class="">
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever
-             </p>
+           <div class="border-bottom border-white "><h1 class="color-white">rount info</h1></div>
+         <div class="row overflow-auto  flex-nowrap overflow-x-scroll" style="height: 300px;">
+         <% route.forEach( r =>{  %>
+           <div class="border   mx-2 my-3 bg-white   d-flex justify-content-center align-items-center"  style="width:170px; height: 250px;">
+              <h3 class="" >rount.<%=r.r_id%></h3>
             </div>
-           <div class="w-25 border  mx-2 my-3 bg-white">
-            <p class="">
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever
-             </p>
-            </div>
+          
+            <% });%>
+            
+            
+
          </div>
         </div>
         <div class="col-4  mx-3 rounded-3">
           <div class="border-bottom border-white"><h1 class="color-white">diver ifo</h1></div>
+        <div  class="overflow-y-scroll"  style="height: 300px; ">
+         <% driver.forEach(d=>{ %>
           <div class="d-flex mx-2 my-3 bg-white p-2 ">
             <div class=""><img  width="80px" height="90px" class="rounded-3 mx-2" src="./src/driver.jpeg" alt=""></div>
-            <div class=""><h4>Zabi khan</h4> velcal :1398 <p>contact:0331-2350626</p></div>
+            <div class=""><h4><%=d.name%></h4>      <p><%=d.contact%></p></div>
           </div>
+         <% });%> 
 
+        </div>
         </div>
       </div>
 
