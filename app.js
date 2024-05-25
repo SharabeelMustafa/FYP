@@ -2,12 +2,27 @@ const express = require('express');
 const app=express();
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const multer = require('multer');
 
 //const path=require('path');
 //app.use(express.static(path.join(__dirname,'public')));
 
 
-app.set("view engine" , "ejs" );
+
+
+
+
+// Multer configuration
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, 'uploads/'); // Specify the folder to save the uploaded files
+  },
+  filename: function (req, file, cb) {
+      cb(null, Date.now() + path.extname(file.originalname)); // Rename the file to include the current timestamp
+  }
+});
+
+const upload = multer({ storage: storage });
 
 //conation 
 
@@ -40,14 +55,20 @@ const mysql=require('mysql');
 
 
 // Middleware
+app.set("view engine" , "ejs" );
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('./public'));
+
+
+
+
 
 app.use(session({
   secret: '@abc', 
   resave: false,
   saveUninitialized: false
 }));
+
 
 //rount 
 
@@ -65,9 +86,28 @@ app.get('/',function (req,res){
 })
 
 
+//// admin rout  
+
+
+
 
 app.get('/admin',function(req,res){
   res.render('admin_dashboard');
+})
+
+
+app.get('/add_stu_data',function(req,res){
+  con.query('SELECT * FROM student',function(err,result){
+    if(err) throw err;
+    
+    con.query('SELECT * FROM bus',function(err,result2){
+      if(err) throw err;
+      
+      res.render('admin_student_data',{stu: result, bus : result2});
+    });
+
+  });
+   
 })
 
 app.get('/admin_sn' ,function(req,res){
@@ -124,6 +164,32 @@ app.get('/admin_sn_gc' ,function(req,res){
  
 })
 
+
+app.post('/send_notification_sc', function(req, res) {
+  const { heading, note, reg_numbers } = req.body;
+  if (!heading || !note || !reg_numbers) {
+      return res.send('Please fill in all fields and select at least one student.');
+  }
+
+  const regNumbersArray = Array.isArray(reg_numbers) ? reg_numbers : [reg_numbers];
+
+  regNumbersArray.forEach(reg_number => {
+    
+      const insertQuery = 'INSERT INTO si_notification (heading, note, reg_number) VALUES (?, ?, ?)';
+      con.query(insertQuery, [heading, note, reg_number], (err) => {
+          if (err) throw err;
+      });
+  });
+
+  res.redirect('/admin_sn');
+});
+
+
+
+
+
+
+///  student  
 
 
 app.get('/dell_si_notif/:N_Id', function(req, res) {
@@ -185,6 +251,29 @@ app.get('/student_dashboard',function (req,res){
 
 })
 
+
+app.post('/signup_stu_by_admin', upload.single('profileImage'), async (req, res) => {
+  const { name,reg_no,contact,bus_id,email, password } = req.body;
+  const profileImage = req.file.filename;
+
+  // Hash the password
+  // const hashedPassword = await bcrypt.hash(password, 10);
+
+  // Insert student data into the database
+  const sql = 'INSERT INTO `student`(`reg_number`, `name`, `contact`, `bus_id`, `email`, `password`, `is_approved`, `profile_img`) VALUES (?,?,?,?,?,?,?,?)';
+
+  
+  const is_approved=0;
+  const values = [reg_no,name,contact,bus_id, email, password,is_approved, profileImage];
+
+  con.query(sql, values, (err, result) => {
+      if (err) {
+          console.error('Error inserting data into the database:', err);
+          return res.status(500).send('Internal Server Error');
+      }
+      res.send('Student signed up successfully');
+  });
+});
 
 
 

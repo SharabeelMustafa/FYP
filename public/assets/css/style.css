@@ -1106,4 +1106,22 @@ a:hover {
   
 }
 
+
+.SearchIcon {
+  height: 17px;
+  width: 17px;
+  fill: var(--bs-white);
+}
+
+.PlusIcon {
+  height: 18px;
+  width: 18px;
+  fill: var(--bs-white);
+  margin-bottom: 4px;
+  margin-right: 3px;
+}
+
+
+
+
 /*# sourceMappingURL=style.css.map */
