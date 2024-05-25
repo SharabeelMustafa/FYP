@@ -3,8 +3,8 @@ const app=express();
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const multer = require('multer');
+const path=require('path');
 
-//const path=require('path');
 //app.use(express.static(path.join(__dirname,'public')));
 
 
@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage });
+
 
 //conation 
 
@@ -58,8 +58,7 @@ const mysql=require('mysql');
 app.set("view engine" , "ejs" );
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('./public'));
-
-
+const upload = multer({ storage: storage });
 
 
 
@@ -185,6 +184,34 @@ app.post('/send_notification_sc', function(req, res) {
 });
 
 
+app.post('/signup_stu_by_admin', upload.single('profileImage'), async (req, res) => {
+  
+  // console.log(req.body);
+  // console.log(req.file);
+
+  // return res.redirect("/add_stu_data");
+
+  const { name, reg_no, contact, bus_id, email, password } = req.body;
+  const profileImage = req.file.filename;
+
+  // Hash the password
+  //const hashedPassword = await bcrypt.hash(password, 10);
+
+  // Insert student data into the database
+  const sql = 'INSERT INTO student (reg_number, name, contact, bus_id, email, password, is_approved, profile_img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+
+  const is_approved = 0;
+  const values = [reg_no, name, contact, bus_id, email, password, is_approved, profileImage];
+
+  con.query(sql, values, (err, result) => {
+      if (err) {
+          console.error('Error inserting data into the database:', err);
+          return res.status(500).send('Internal Server Error');
+      }
+      res.redirect('/add_stu_data');
+  });
+  
+});
 
 
 
@@ -252,28 +279,28 @@ app.get('/student_dashboard',function (req,res){
 })
 
 
-app.post('/signup_stu_by_admin', upload.single('profileImage'), async (req, res) => {
-  const { name,reg_no,contact,bus_id,email, password } = req.body;
-  const profileImage = req.file.filename;
+// app.post('/signup_stu_by_admin', upload.single('profileImage'), async (req, res) => {
+//   const { name,reg_no,contact,bus_id,email, password } = req.body;
+//   const profileImage = req.file.filename;
 
-  // Hash the password
-  // const hashedPassword = await bcrypt.hash(password, 10);
+//   // Hash the password
+//   // const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Insert student data into the database
-  const sql = 'INSERT INTO `student`(`reg_number`, `name`, `contact`, `bus_id`, `email`, `password`, `is_approved`, `profile_img`) VALUES (?,?,?,?,?,?,?,?)';
+//   // Insert student data into the database
+//   const sql = 'INSERT INTO `student`(`reg_number`, `name`, `contact`, `bus_id`, `email`, `password`, `is_approved`, `profile_img`) VALUES (?,?,?,?,?,?,?,?)';
 
   
-  const is_approved=0;
-  const values = [reg_no,name,contact,bus_id, email, password,is_approved, profileImage];
+//   const is_approved=0;
+//   const values = [reg_no,name,contact,bus_id, email, password,is_approved, profileImage];
 
-  con.query(sql, values, (err, result) => {
-      if (err) {
-          console.error('Error inserting data into the database:', err);
-          return res.status(500).send('Internal Server Error');
-      }
-      res.send('Student signed up successfully');
-  });
-});
+//   con.query(sql, values, (err, result) => {
+//       if (err) {
+//           console.error('Error inserting data into the database:', err);
+//           return res.status(500).send('Internal Server Error');
+//       }
+//       res.send('Student signed up successfully');
+//   });
+// });
 
 
 
