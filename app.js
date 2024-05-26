@@ -59,7 +59,13 @@ app.set("view engine" , "ejs" );
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('./public'));
 const upload = multer({ storage: storage });
-
+// Middleware to check if admin is logged in
+function checkAdminSession(req, res, next) {
+  if (!req.session.isAdmin) {
+      return res.redirect('/admin/login');
+  }
+  next();
+}
 
 
 app.use(session({
@@ -85,12 +91,56 @@ app.get('/',function (req,res){
 })
 
 
-//// admin rout  
+app.get('/stu_singup',function (req,res){
+
+    
+  res.render('student_singup');
+})
+
+app.get('/test',function (req,res){
+  con.query('SELECT * FROM driver',function(err, result){
+    if (err) throw err;
+    con.query('SELECT * FROM route' ,function(err, result1){
+      if(err) throw err;
+      res.render('test1',{driver : result , route:result1});   
+    }) 
+
+  })
+    
+ 
+})
+
+
+//// admin route 
+
+
+app.post('/admin/login/confirm', (req, res) => {
+  const { username, password } = req.body;
+  const selectQuery = 'SELECT * FROM admin WHERE username = ?';
+  con.query(selectQuery, [username], (err, result) => {
+      if (err) throw err;
+      if (result.length > 0) {
+          bcrypt.compare(password, result[0].password, (err, bcryptResult) => {
+              if (err) throw err;
+              if (password == result[0].password) {
+                  req.session.isAdmin = true;
+                  req.session.adminId = result[0].id;
+                  res.redirect('/admin_dashboard');
+              } else {
+                  res.send('Incorrect password');
+              }
+          });
+      } else {
+          res.send('Admin not found');
+      }
+  });
+});
 
 
 
 
-app.get('/admin',function(req,res){
+
+app.get('/admin_dashboard',function(req,res){
   res.render('admin_dashboard');
 })
 
@@ -194,13 +244,13 @@ app.post('/signup_stu_by_admin', upload.single('profileImage'), async (req, res)
   const { name, reg_no, contact, bus_id, email, password } = req.body;
   const profileImage = req.file.filename;
 
-  // Hash the password
+
   //const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Insert student data into the database
+ 
   const sql = 'INSERT INTO student (reg_number, name, contact, bus_id, email, password, is_approved, profile_img) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
 
-  const is_approved = 0;
+  const is_approved = 1;
   const values = [reg_no, name, contact, bus_id, email, password, is_approved, profileImage];
 
   con.query(sql, values, (err, result) => {
@@ -278,29 +328,6 @@ app.get('/student_dashboard',function (req,res){
 
 })
 
-
-// app.post('/signup_stu_by_admin', upload.single('profileImage'), async (req, res) => {
-//   const { name,reg_no,contact,bus_id,email, password } = req.body;
-//   const profileImage = req.file.filename;
-
-//   // Hash the password
-//   // const hashedPassword = await bcrypt.hash(password, 10);
-
-//   // Insert student data into the database
-//   const sql = 'INSERT INTO `student`(`reg_number`, `name`, `contact`, `bus_id`, `email`, `password`, `is_approved`, `profile_img`) VALUES (?,?,?,?,?,?,?,?)';
-
-  
-//   const is_approved=0;
-//   const values = [reg_no,name,contact,bus_id, email, password,is_approved, profileImage];
-
-//   con.query(sql, values, (err, result) => {
-//       if (err) {
-//           console.error('Error inserting data into the database:', err);
-//           return res.status(500).send('Internal Server Error');
-//       }
-//       res.send('Student signed up successfully');
-//   });
-// });
 
 
 

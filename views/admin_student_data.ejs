@@ -99,8 +99,10 @@
             <div class="d-flex justify-content-between flex-wrap align-items-center p-4 pb-0">
                 <div class="input mb-3">
                     <input type="text" class="search-box ps-3 py-1" placeholder="Please Enter"
-                        aria-label="Recipient's username" aria-describedby="button-addon2" />
-                    <button class="btn bg-primary mb-1" type="button" id="button-addon2">
+                        aria-label="Recipient's username" aria-describedby="button-addon2"  id="search-box" />
+
+                        
+                    <button class="btn bg-primary mb-1"  type="button" id="button-addon2">
                         <span>
                             <svg class="SearchIcon mb-1">
                                 <use href="assets/images/listing/search-icon.svg#search-icon"></use>
@@ -183,6 +185,7 @@
                                   
                                     <label class="form-label text-dark mb-1">Upload Image</label>
                                     <input type="file" class="form-control" id="profileImage" name="profileImage" required>
+                                    
 
                                     <!-- <div class=" d-flex gap-2">
                                         <div class="">
@@ -241,10 +244,12 @@
                             <th scope="col" class="pb-3 text-end dashed-border-bottom">Action</th>
                         </tr>
                     </thead>
-                    <tbody class="small">
+                    <tbody class="small" id="student-table-body">
+                        <% let a=0; %>
                         <% stu.forEach( s =>{  %>
-                        <tr class="mt-4">
-                            <th scope="row" class="ps-4 pe-2">1</th>
+                        <tr class="mt-4 student-row" >
+                           
+                            <th scope="row" class="ps-4 pe-2"><%= ++a %></th>
                             <td><%=s.name %></td>
                             <td><%=s.reg_number %></td>
                             <td><%=s.contact %></td>
@@ -337,7 +342,20 @@
         $("#some-menu").load("navbars.ejs");
 
      
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchBox = document.getElementById('search-box');
+            const tableBody = document.getElementById('student-table-body');
+            const rows = tableBody.getElementsByClassName('student-row');
 
+            searchBox.addEventListener('keyup', function () {
+                const searchTerm = searchBox.value.toLowerCase();
+
+                Array.from(rows).forEach(function (row) {
+                    const rowText = row.textContent.toLowerCase();
+                    row.style.display = rowText.includes(searchTerm) ? '' : 'none';
+                });
+            });
+        });
  
     </script>
     <footer class="mxc">
