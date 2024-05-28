@@ -27,6 +27,7 @@ const storage = multer.diskStorage({
 //conation 
 
 const mysql=require('mysql');
+const { clear } = require('console');
  const con =mysql.createConnection({
     host : 'localhost',
     user : 'root',
@@ -59,7 +60,9 @@ app.set("view engine" , "ejs" );
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('./public'));
 const upload = multer({ storage: storage });
+
 // Middleware to check if admin is logged in
+
 function checkAdminSession(req, res, next) {
   if (!req.session.isAdmin) {
       return res.redirect('/admin/login');
@@ -92,23 +95,9 @@ app.get('/',function (req,res){
 
 
 app.get('/stu_singup',function (req,res){
-
-    
   res.render('student_singup');
 })
 
-app.get('/test',function (req,res){
-  con.query('SELECT * FROM driver',function(err, result){
-    if (err) throw err;
-    con.query('SELECT * FROM route' ,function(err, result1){
-      if(err) throw err;
-      res.render('test1',{driver : result , route:result1});   
-    }) 
-
-  })
-    
- 
-})
 
 
 //// admin route 
@@ -138,18 +127,15 @@ app.post('/admin/login/confirm', (req, res) => {
 
 
 
-
-
-app.get('/admin_dashboard',function(req,res){
+app.get('/admin_dashboard',checkAdminSession,function(req,res){
   res.render('admin_dashboard');
 })
 
-
-app.get('/add_stu_data',function(req,res){
+app.get('/add_stu_data',checkAdminSession,function(req,res){
   con.query('SELECT * FROM student',function(err,result){
     if(err) throw err;
     
-    con.query('SELECT * FROM bus',function(err,result2){
+    con.query('SELECT * FROM bus',checkAdminSession,function(err,result2){
       if(err) throw err;
       
       res.render('admin_student_data',{stu: result, bus : result2});
@@ -159,7 +145,7 @@ app.get('/add_stu_data',function(req,res){
    
 })
 
-app.get('/admin_sn' ,function(req,res){
+app.get('/admin_sn' ,checkAdminSession,function(req,res){
   con.query('SELECT * FROM student',function(err,result){
     if(err) throw err;
     res.render('admin_send_notfi',{dat: result});
@@ -168,7 +154,7 @@ app.get('/admin_sn' ,function(req,res){
  
 })
 
-app.get('/admin_sn_dc' ,function(req,res){
+app.get('/admin_sn_dc',checkAdminSession ,function(req,res){
   con.query('SELECT * FROM student',function(err,result){
     if(err) throw err;
     res.render('admin_send_notfi',{dat: result});
@@ -177,7 +163,7 @@ app.get('/admin_sn_dc' ,function(req,res){
  
 })
 
-app.get('/admin_sn_fc' ,function(req,res){
+app.get('/admin_sn_fc',checkAdminSession ,function(req,res){
   con.query('SELECT * FROM student',function(err,result){
     if(err) throw err;
     res.render('admin_send_notfi',{dat: result});
@@ -186,7 +172,7 @@ app.get('/admin_sn_fc' ,function(req,res){
  
 })
 
-app.get('/admin_sn_bc' ,function(req,res){
+app.get('/admin_sn_bc',checkAdminSession ,function(req,res){
   con.query('SELECT * FROM student',function(err,result){
     if(err) throw err;
     res.render('admin_send_notfi',{dat: result});
@@ -195,7 +181,7 @@ app.get('/admin_sn_bc' ,function(req,res){
  
 })
 
-app.get('/admin_sn_rc' ,function(req,res){
+app.get('/admin_sn_rc',checkAdminSession ,function(req,res){
   con.query('SELECT * FROM student',function(err,result){
     if(err) throw err;
     res.render('admin_send_notfi',{dat: result});
@@ -204,7 +190,7 @@ app.get('/admin_sn_rc' ,function(req,res){
  
 })
 
-app.get('/admin_sn_gc' ,function(req,res){
+app.get('/admin_sn_gc' ,checkAdminSession,function(req,res){
   con.query('SELECT * FROM student',function(err,result){
     if(err) throw err;
     res.render('admin_send_notfi',{dat: result});
@@ -214,7 +200,7 @@ app.get('/admin_sn_gc' ,function(req,res){
 })
 
 
-app.post('/send_notification_sc', function(req, res) {
+app.post('/send_notification_sc',checkAdminSession, function(req, res) {
   const { heading, note, reg_numbers } = req.body;
   if (!heading || !note || !reg_numbers) {
       return res.send('Please fill in all fields and select at least one student.');
@@ -234,7 +220,7 @@ app.post('/send_notification_sc', function(req, res) {
 });
 
 
-app.post('/signup_stu_by_admin', upload.single('profileImage'), async (req, res) => {
+app.post('/signup_stu_by_admin', checkAdminSession,upload.single('profileImage'), async (req, res) => {
   
   // console.log(req.body);
   // console.log(req.file);
@@ -263,16 +249,23 @@ app.post('/signup_stu_by_admin', upload.single('profileImage'), async (req, res)
   
 });
 
-
+app.get('/admin/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.redirect('/admin_dashboard');
+    }
+    res.clearCookie('connect.sid');
+    res.redirect('/');
+  });
+});
 
 
 ///  student  
 
 
 app.get('/dell_si_notif/:N_Id', function(req, res) {
-  const n_Id = req.params.N_Id; // Notification ID to delete
+  const n_Id = req.params.N_Id; 
   //const userId = req.session.userId; // Current user's ID
-  
   con.query('DELETE FROM si_notification WHERE sin_id = ?', [n_Id], (err) => {
     if (err) throw err;
     res.redirect('/student_dashboard');
@@ -329,7 +322,15 @@ app.get('/student_dashboard',function (req,res){
 })
 
 
-
+app.get('/student/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.redirect('/student_dashboard');
+    }
+    res.clearCookie('connect.sid');
+    res.redirect('/');
+  });
+});
 
 
 app.listen(3000);

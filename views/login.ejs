@@ -11,6 +11,36 @@
       .hidden {
         display: none;
       }
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+      }
+      .overlay-content {
+        position: relative;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 80%; /* Increased width */
+        height: 90%;
+       /* overflow-y: auto;*/
+      }
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+      }
+
     </style>
   </head>
   <body>
@@ -21,17 +51,14 @@
 
       <div class="row">
         <div class="col-7">
-          <div class="bg-white px-5 py-3 my-5 rounded-3 h-75">'
-            <h2>Power By </h2>
+          <div class="bg-white px-5 py-3 my-5 rounded-3 h-75">
+            <h2>Powered By</h2>
             <div class="d-flex justify-content-center align-items-center">
               <img src="assets/images/logo1.png" class="border-2" width="250px" height="250px" alt="">
             </div>
             <div class="d-flex justify-content-center align-items-center">
-              <h3>Campus Weel  Comsats  </h3>
-              
+              <h3>Campus Weel Comsats</h3>
             </div>
-           
-            
           </div>
         </div>
         <div class="col-5 rounded-3 busImg">
@@ -49,7 +76,7 @@
               </div>
               <input type="password" class="mxc1 my-2 rounded-1 px-4" id="password" name="password" required placeholder="Password">
               <br>
-              <span><a href="/stu_singup" class=" mxc1 text-danger ">SignUp here</a></span>
+              <span><a href="#" id="show-signup" class="mxc1 text-danger">SignUp here</a></span>
               <input type="submit" class="mxc0 my-2 rounded-1" value="Log in">
             </form>
           </div>
@@ -104,6 +131,76 @@
       </div>
     </div>
 
+    <!-- Signup Overlay -->
+    <div class="overlay" id="signup-overlay">
+      <div class="overlay-content">
+        <button class="close-btn" id="close-signup">&times;</button>
+        <div class="row m-0" style="height: 100%;">
+          <div class="col-lg-6 d-none d-lg-block login-bg ">
+            <div class="">
+              <div class="text-center">
+                <img src="./assets/images/CUIWah-Website-Logo.png" class="object-fit-contain " width="270px" height="250px" alt="" />
+              </div>
+              <div class="text-center text-white ">
+                <img src="./assets/images/Pak-map.png"   height="250px" alt="">
+                <h5 class="fw-bold">National Ranking</h5>
+                <p class="small">#4 in Pakistan - 2021.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6  p-sm-5">
+            <div class="text-center">
+              <img src="./assets/images/logo1.png" width="100px" height="100px`" alt="">
+              <h2 class="">Create a new account</h2>
+              <p class="small">Already have an account? <span><a href="#" id="hide-signup" class="text-danger">Sign-in here</a></span></p>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="mb-2">
+                  <label for="" class="form-label regular small">First Name</label>
+                  <input type="text" class="form-control" placeholder="Please Enter"/>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="mb-2">
+                  <label for="" class="form-label regular small">Last Name</label>
+                  <input type="text" class="form-control" placeholder="Please Enter"/>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="mb-2">
+                  <label for="" class="form-label regular small">Username or email address</label>
+                  <input type="text" class="form-control" placeholder="Please Enter"/>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="mb-2">
+                  <label for="" class="form-label regular small">Phone Number</label>
+                  <input type="number" class="form-control" placeholder="Please Enter"/>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="mb-2">
+                  <label for="" class="form-label regular small">Password</label>
+                  <input type="password" class="form-control" placeholder="Please Enter"/>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="mb-2">
+                  <label for="" class="form-label regular small">Confirm Password</label>
+                  <input type="password" class="form-control" placeholder="Please Enter"/>
+                </div>
+              </div>
+              <div class="d-flex justify-content-evenly align-items-center mt-3 pt-3 ">
+                <a href="#" class="btn btn-danger px-5 w-75 text-white bg-color" type="button">SignUp</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
       document.getElementById('admin-btn').addEventListener('click', function() {
         document.getElementById('stu_form').classList.add('hidden');
@@ -121,6 +218,18 @@
         document.getElementById('admin_form').classList.add('hidden');
         document.getElementById('stu_form').classList.add('hidden');
         document.getElementById('faculty_form').classList.remove('hidden');
+      });
+
+      document.getElementById('show-signup').addEventListener('click', function() {
+        document.getElementById('signup-overlay').style.display = 'flex';
+      });
+
+      document.getElementById('close-signup').addEventListener('click', function() {
+        document.getElementById('signup-overlay').style.display = 'none';
+      });
+
+      document.getElementById('hide-signup').addEventListener('click', function() {
+        document.getElementById('signup-overlay').style.display = 'none';
       });
     </script>
   </body>
