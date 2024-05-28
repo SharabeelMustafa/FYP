@@ -15,7 +15,7 @@ const path=require('path');
 // Multer configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-      cb(null, 'uploads/'); // Specify the folder to save the uploaded files
+      cb(null, 'public/uploads/'); // Specify the folder to save the uploaded files
   },
   filename: function (req, file, cb) {
       cb(null, Date.now() + path.extname(file.originalname)); // Rename the file to include the current timestamp
@@ -135,7 +135,7 @@ app.get('/add_stu_data',checkAdminSession,function(req,res){
   con.query('SELECT * FROM student',function(err,result){
     if(err) throw err;
     
-    con.query('SELECT * FROM bus',checkAdminSession,function(err,result2){
+    con.query('SELECT * FROM bus',function(err,result2){
       if(err) throw err;
       
       res.render('admin_student_data',{stu: result, bus : result2});
@@ -164,18 +164,18 @@ app.get('/admin_sn_dc',checkAdminSession ,function(req,res){
 })
 
 app.get('/admin_sn_fc',checkAdminSession ,function(req,res){
-  con.query('SELECT * FROM student',function(err,result){
+  con.query('SELECT * FROM facality',function(err,result){
     if(err) throw err;
-    res.render('admin_send_notfi',{dat: result});
+    res.render('admin_send_notfi_fc',{dat: result});
 
   });
  
 })
 
 app.get('/admin_sn_bc',checkAdminSession ,function(req,res){
-  con.query('SELECT * FROM student',function(err,result){
+  con.query('SELECT * FROM bus',function(err,result){
     if(err) throw err;
-    res.render('admin_send_notfi',{dat: result});
+    res.render('admin_send_nofti_bc',{dat: result});
 
   });
  
@@ -190,14 +190,6 @@ app.get('/admin_sn_rc',checkAdminSession ,function(req,res){
  
 })
 
-app.get('/admin_sn_gc' ,checkAdminSession,function(req,res){
-  con.query('SELECT * FROM student',function(err,result){
-    if(err) throw err;
-    res.render('admin_send_notfi',{dat: result});
-
-  });
- 
-})
 
 
 app.post('/send_notification_sc',checkAdminSession, function(req, res) {
@@ -218,6 +210,72 @@ app.post('/send_notification_sc',checkAdminSession, function(req, res) {
 
   res.redirect('/admin_sn');
 });
+
+app.post('/send_notification_fc',checkAdminSession, function(req, res) {
+  const { heading, note, emp_id } = req.body;
+  if (!heading || !note || !emp_id) {
+      return res.send('Please fill in all fields and select at least one student.');
+  }
+
+  const emp_idArray = Array.isArray(emp_id) ? emp_id : [emp_id];
+
+  emp_idArray.forEach(emp_id => {
+    
+      const insertQuery = 'INSERT INTO fi_notification (heading, notes, emp_id) VALUES (?, ?, ?)';
+      con.query(insertQuery, [heading, note, emp_id], (err) => {
+          if (err) throw err;
+      });
+  });
+
+  res.redirect('/admin_sn_fc');
+});
+
+
+app.post('/send_notification_bc',checkAdminSession, function(req, res) {
+  const { heading, note, bus_id } = req.body;
+  if (!heading || !note || !bus_id) {
+      return res.send('Please fill in all fields and select at least one student.');
+  }
+  
+  const emp_idArray = Array.isArray(bus_id) ? bus_id : [bus_id];
+
+  emp_idArray.forEach(bus_id => {
+    
+      const student_regNo_Query = 'SELECT reg_number FROM student WHERE bus_id = ?';
+      const facality_empNo_Query = 'SELECT emp_id FROM facality WHERE bus_id = ?';
+
+      con.query( student_regNo_Query,[bus_id] ,(err , result) => {
+          if (err) throw err;
+          //console.log(result);
+        
+          result.forEach(rn=>{
+            
+            const insertQuery = 'INSERT INTO si_notification (heading, note,reg_number) VALUES (?, ?, ?)';
+            con.query(insertQuery, [heading, note, rn.reg_number], (err) => {
+                if (err) throw err;
+            });
+          })
+      });
+
+      con.query( facality_empNo_Query,[bus_id] ,(err , result) => {
+          if (err) throw err;
+          console.log(result);
+        
+          result.forEach(ei=>{
+            
+            const insertQuery = 'INSERT INTO fi_notification (heading, notes,emp_id) VALUES (?, ?, ?)';
+            con.query(insertQuery, [heading, note, ei.emp_id], (err) => {
+                if (err) throw err;
+            });
+          })
+      });
+  });
+
+  res.redirect('/admin_sn_bc');
+});
+
+
+
 
 
 app.post('/signup_stu_by_admin', checkAdminSession,upload.single('profileImage'), async (req, res) => {
