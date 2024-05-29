@@ -94,9 +94,9 @@ app.get('/',function (req,res){
 })
 
 
-app.get('/stu_singup',function (req,res){
-  res.render('student_singup');
-})
+// app.get('/stu_singup',function (req,res){
+//   res.render('student_singup');
+// })
 
 
 
@@ -307,6 +307,10 @@ app.post('/signup_stu_by_admin', checkAdminSession,upload.single('profileImage')
   
 });
 
+
+
+
+
 app.get('/admin/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
@@ -320,6 +324,24 @@ app.get('/admin/logout', (req, res) => {
 
 ///  student  
 
+app.post('/stu_singup',upload.single('profileImage'), async (req, res) => {
+  const { name, reg_no, email, contact, password } = req.body;
+  const profileImage = req.file.filename;
+
+  // Hash the password before saving it
+  //const hashedPassword = await bcrypt.hash(password, 10);
+  const bus_id= 0;
+  const sql = 'INSERT INTO student (reg_number, name, contact, email, password , bus_id , profile_img, is_approved) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+  const values = [reg_no, name, contact, email,password,bus_id, profileImage, 1];
+
+  con.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error inserting data into the database:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    res.redirect('/'); 
+  });
+});
 
 app.get('/dell_si_notif/:N_Id', function(req, res) {
   const n_Id = req.params.N_Id; 
