@@ -50,18 +50,17 @@
                 <a href="/add_faculty_data" class="text-decoration-none">
                     <div class="d-flex justify-content-between bg-primary rounded-3 mt-2 py-4 card-shadow">
                         <div class="mx-2">
-                            <h44 class="text-white">Facality</h44>
+                            <h44 class="text-white">Faculty</h44>
                         </div>
                         <div class="me-2">
                             <img width="40px" height="30px" src="assets/images/2.png" alt="" />
                         </div>
                     </div>
                 </a>
-
                 <a href="/add_bus_data" class="text-decoration-none">
                     <div class="d-flex justify-content-between bg-primary rounded-3 mt-2 py-4 card-shadow">
                         <div class="mx-2">
-                            <h44 class="text-white">On Bus</h44>
+                            <h44 class="text-white">Bus</h44>
                         </div>
                         <div class="me-2">
                             <img width="40px" height="30px" src="assets/images/buslogo.png" alt="" />
@@ -80,7 +79,7 @@
                     </div>
                 </a>
 
-               
+                
             </div>
 
 
@@ -107,7 +106,7 @@
                         <svg class="PlusIcon">
                             <use href="assets/images/listing/plus.svg#plus-icon"></use>
                         </svg>
-                        Add Driver
+                        Add Bus
                     </button>
                 </div>
             </div>
@@ -121,7 +120,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                     <div class="modal-content">
                         <div class="modal-header p-4">
-                            <h5 class="modal-title" id="staticBackdropLabel">Create Driver Data</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Create Bus Data</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         
@@ -131,62 +130,33 @@
                                 
                                 <div class="col-lg-6 col-md-6 col-12">
                                   
-                                    <form action="/signup_stu_by_admin"  method="POST"  enctype="multipart/form-data" > 
+                                    <form action="/signup_bus_by_admin"  method="POST"  enctype="multipart/form-data" > 
                                      
                                     
-                                        <label class="form-label mb-1">Driver Name</label>
-                                    <input type="text" class="form-control mb-1 border-0 bg-body"
-                                        placeholder="Please Enter" name="name">
+                                        <label class="form-label mb-1">Bus Id</label>
+                                       <input type="text" class="form-control mb-1 border-0 bg-body"
+                                        placeholder="Please Enter" name="bus_id">
                                         
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <label class="form-label mb-1">Driver Employee Id</label>
-                                    <input type="text" class="form-control mb-1 border-0 bg-body"
-                                        placeholder="Please Enter" name="email">
+                                    <select class="form-control mb-1 border-0 bg-body" name="driver_emp_id">
+                                        <% driver.forEach( b=>{ %>
+                                            <option>
+                                                <%=b.emp_id%>
+                                            </option>
+                                            <% }); %>
+                                    </select>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
-                                    <label class="form-label mb-1">Driver Email</label>
-                                    <input type="text" class="form-control mb-1 border-0 bg-body"
-                                        placeholder="Please Enter" name="email">
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <label class="form-label mb-1">Driver Contact</label>
-                                    <input type="text" class="form-control mb-1 border-0 bg-body"
-                                        placeholder="Please Enter" name="contact">
-                                </div>
-
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <label class="form-label mb-1">Password</label>
-                                    <input type="password" class="form-control mb-1 border-0 bg-body"
-                                        placeholder="Please Enter" name="password">
-
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-12">
-                                  
-                                    <label class="form-label text-dark mb-1">Upload Image</label>
-                                    <input type="file" class="form-control" id="profileImage" name="profileImage" required>
-                                    
-
-                                    <!-- <div class=" d-flex gap-2">
-                                        <div class="">
-                                            <label class="btn upload-img-container btn-file border-0 p-3 position-relative">
-
-                                                <div
-                                                    class="uploadFile d-flex justify-content-center align-items-center ">
-                                                    <img src="assets/images/upload-img.png" height="40" width="40"
-                                                        id="image-preview" alt="">
-                                                </div>
-                                               
-                                            </label>
-
-                                        </div>
-                                    
-                                        <div class="image-containers d-flex gap-3 flex-wrap position-relative">
-                                            <div class="upload-property-image">
-                                                
-                                            </div>
-                                        </div>
-                                    </div> -->
+                                    <label class="form-label mb-1">Route Id</label>
+                                    <select class="form-control mb-1 border-0 bg-body" name="route_id">
+                                        <% route.forEach( b=>{ %>
+                                            <option>
+                                                <%=b.r_id%>
+                                            </option>
+                                            <% }); %>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -209,13 +179,13 @@
                     <thead class="Employees-border sticky-top bg-white" style="z-index: 1 !important">
                         <tr class="small">
                             <th scope="col" class="pb-3 ps-4 dashed-border-bottom">#</th>
+                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Bus Id
+                            </th>
+                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Driver Employee Id
+                            </th>
                             <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Driver Name
                             </th>
-                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Contact
-                            </th>
-                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Email
-                            </th>
-                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Password
+                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Route Id
                             </th>
                             <th scope="col" class="pb-3 text-end dashed-border-bottom">Action</th>
                         </tr>
@@ -226,10 +196,10 @@
                         <tr class="mt-4 student-row" >
                            
                             <th scope="row" class="ps-4 pe-2"><%= ++a %></th>
-                            <td><%=s.name %></td>
-                            <td><%=s.contact %></td>
-                            <td><%=s.email %></td>
-                            <td><%=s.password %></td>
+                            <td><%=s.bus_id %></td>
+                            <td><%=s.driver_emp_id %></td>
+                            <td><%=s.driver_name%></td>
+                            <td><%=s.route_id %></td>
                             <td class="d-flex justify-content-evenly">
                                 <button
                                     class="btn btn-light-success d-flex justify-content-center align-items-center border-0 px-2"
@@ -259,7 +229,7 @@
             <div
                 class="employee-displaying d-flex flex-wrap-reverse align-items-center justify-content-between p-3 border-top">
                 <div class="d-flex flex-wrap-reverse align-items-center mt-md-0 mt-3">
-                    <p class="mb-0 mt-sm-0 mt-1 displaying-records">Displaying 10 for 230 records</p>
+                    <p class="mb-0 mt-sm-0 mt-1 displaying-records">Displaying 10 out of 230 records</p>
                     <div class="d-flex justify-content-center align-items-center ms-sm-0 ms-2">
                         <select class="ms-sm-4 form-select input-flied gray border-0">
                             <option>5</option>
@@ -334,7 +304,7 @@
     </script>
     <footer class="mxc">
         <div class="mtc rounded-3 p-1 gap-2 bg-primary">
-            <h5 class="text-white">CU BSU portal</h5>
+            <h5 class="text-white">CUI BUS Portal</h5>
         </div>
     </footer>
 

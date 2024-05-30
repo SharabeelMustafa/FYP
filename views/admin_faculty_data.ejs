@@ -107,7 +107,7 @@
                                 <svg class="PlusIcon">
                                     <use href="assets/images/listing/plus.svg#plus-icon"></use>
                                 </svg>
-                                Add Student
+                                Add Facality
                             </button>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header p-4">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Create Student Data</h5>
+                                    <h5 class="modal-title" id="staticBackdropLabel">Add Fcaulty Data</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
@@ -132,33 +132,30 @@
 
                                         <div class="col-lg-6 col-md-6 col-12">
 
-                                            <form action="/signup_stu_by_admin" method="POST"
+                                            <form action="/signup_faculty_by_admin" method="POST"
                                                 enctype="multipart/form-data">
 
 
-                                                <label class="form-label mb-1">Student Name</label>
+                                                <label class="form-label mb-1">Facality Name</label>
                                                 <input type="text" class="form-control mb-1 border-0 bg-body"
                                                     placeholder="Please Enter" name="name">
 
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-12">
-                                            <label class="form-label mb-1">Registration Number</label>
+                                            <label class="form-label mb-1">Faculty Employee Id</label>
                                             <input type="text" class="form-control mb-1 border-0 bg-body"
-                                                placeholder="Please Enter" name="reg_no">
-
-
+                                                placeholder="Please Enter" name="emp_id">
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-12">
-                                            <label class="form-label mb-1">Email</label>
+                                            <label class="form-label mb-1">Faculty Email</label>
                                             <input type="text" class="form-control mb-1 border-0 bg-body"
                                                 placeholder="Please Enter" name="email">
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-12">
-                                            <label class="form-label mb-1">Contact</label>
+                                            <label class="form-label mb-1">Faculty Contact</label>
                                             <input type="text" class="form-control mb-1 border-0 bg-body"
                                                 placeholder="Please Enter" name="contact">
                                         </div>
-
                                         <div class="col-lg-6 col-md-6 col-12">
                                             <label class="form-label mb-1">BUS</label>
                                             <select class="form-control mb-1 border-0 bg-body" name="bus_id">
@@ -170,7 +167,6 @@
                                             </select>
 
                                         </div>
-
                                         <div class="col-lg-6 col-md-6 col-12">
                                             <label class="form-label mb-1">Password</label>
                                             <input type="password" class="form-control mb-1 border-0 bg-body"
@@ -226,15 +222,12 @@
                             <thead class="Employees-border sticky-top bg-white" style="z-index: 1 !important">
                                 <tr class="small">
                                     <th scope="col" class="pb-3 ps-4 dashed-border-bottom">#</th>
-                                    <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Student
+                                    <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Faculty
                                         Name
-                                    </th>
-                                    <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">
-                                        Registration Number
                                     </th>
                                     <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Contact
                                     </th>
-                                    <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Email
+                                    <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px"> Email
                                     </th>
                                     <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">BUS
                                     </th>
@@ -253,9 +246,6 @@
                                             </th>
                                             <td>
                                                 <%=s.name %>
-                                            </td>
-                                            <td>
-                                                <%=s.reg_number %>
                                             </td>
                                             <td>
                                                 <%=s.contact %>
@@ -376,7 +366,7 @@
     </script>
     <footer class="mxc">
         <div class="mtc rounded-3 p-1 gap-2 bg-primary">
-            <h5 class="text-white">CUI BUS Portal</h5>
+            <h5 class="text-white">CUI BUS portal</h5>
         </div>
     </footer>
 

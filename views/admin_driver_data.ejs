@@ -50,7 +50,7 @@
                 <a href="/add_faculty_data" class="text-decoration-none">
                     <div class="d-flex justify-content-between bg-primary rounded-3 mt-2 py-4 card-shadow">
                         <div class="mx-2">
-                            <h44 class="text-white">Facality</h44>
+                            <h44 class="text-white">Faculty</h44>
                         </div>
                         <div class="me-2">
                             <img width="40px" height="30px" src="assets/images/2.png" alt="" />
@@ -61,7 +61,7 @@
                 <a href="/add_bus_data" class="text-decoration-none">
                     <div class="d-flex justify-content-between bg-primary rounded-3 mt-2 py-4 card-shadow">
                         <div class="mx-2">
-                            <h44 class="text-white">Bus</h44>
+                            <h44 class="text-white">On Bus</h44>
                         </div>
                         <div class="me-2">
                             <img width="40px" height="30px" src="assets/images/buslogo.png" alt="" />
@@ -80,7 +80,7 @@
                     </div>
                 </a>
 
-            
+               
             </div>
 
 
@@ -107,7 +107,7 @@
                         <svg class="PlusIcon">
                             <use href="assets/images/listing/plus.svg#plus-icon"></use>
                         </svg>
-                        Add Facality
+                        Add Driver
                     </button>
                 </div>
             </div>
@@ -121,7 +121,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                     <div class="modal-content">
                         <div class="modal-header p-4">
-                            <h5 class="modal-title" id="staticBackdropLabel">Create Facality Data</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Add new Driver</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         
@@ -131,38 +131,30 @@
                                 
                                 <div class="col-lg-6 col-md-6 col-12">
                                   
-                                    <form action="/signup_stu_by_admin"  method="POST"  enctype="multipart/form-data" > 
+                                    <form action="/signup_driver_by_admin"  method="POST"  enctype="multipart/form-data" > 
                                      
                                     
-                                        <label class="form-label mb-1">Facality Name</label>
+                                        <label class="form-label mb-1">Driver Name</label>
                                     <input type="text" class="form-control mb-1 border-0 bg-body"
                                         placeholder="Please Enter" name="name">
                                         
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
-                                    <label class="form-label mb-1">Facality Employee Id</label>
+                                    <label class="form-label mb-1">Driver Employee Id</label>
+                                    <input type="text" class="form-control mb-1 border-0 bg-body"
+                                        placeholder="Please Enter" name="emp_id">
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <label class="form-label mb-1">Driver Email</label>
                                     <input type="text" class="form-control mb-1 border-0 bg-body"
                                         placeholder="Please Enter" name="email">
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
-                                    <label class="form-label mb-1">Facality Email</label>
-                                    <input type="text" class="form-control mb-1 border-0 bg-body"
-                                        placeholder="Please Enter" name="email">
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <label class="form-label mb-1">Facality Contact</label>
+                                    <label class="form-label mb-1">Driver Contact</label>
                                     <input type="text" class="form-control mb-1 border-0 bg-body"
                                         placeholder="Please Enter" name="contact">
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <label class="form-label mb-1">BUS</label>
-                                    <select class="form-control mb-1 border-0 bg-body" name="bus_id">
-                                        <% bus.forEach( b =>{  %>
-                                        <option><%=b.bus_id%></option>
-                                        <% }); %>
-                                    </select>
-                                    
-                                </div>
+
                                 <div class="col-lg-6 col-md-6 col-12">
                                     <label class="form-label mb-1">Password</label>
                                     <input type="password" class="form-control mb-1 border-0 bg-body"
@@ -217,13 +209,13 @@
                     <thead class="Employees-border sticky-top bg-white" style="z-index: 1 !important">
                         <tr class="small">
                             <th scope="col" class="pb-3 ps-4 dashed-border-bottom">#</th>
-                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Facality Name
+                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Employee Id
+                            </th>
+                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Driver Name
                             </th>
                             <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Contact
                             </th>
-                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px"> Email
-                            </th>
-                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">BUS
+                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Email
                             </th>
                             <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Password
                             </th>
@@ -236,10 +228,10 @@
                         <tr class="mt-4 student-row" >
                            
                             <th scope="row" class="ps-4 pe-2"><%= ++a %></th>
+                            <td><%=s.emp_id %></td>
                             <td><%=s.name %></td>
                             <td><%=s.contact %></td>
                             <td><%=s.email %></td>
-                            <td><%=s.bus_id %></td>
                             <td><%=s.password %></td>
                             <td class="d-flex justify-content-evenly">
                                 <button
@@ -270,7 +262,7 @@
             <div
                 class="employee-displaying d-flex flex-wrap-reverse align-items-center justify-content-between p-3 border-top">
                 <div class="d-flex flex-wrap-reverse align-items-center mt-md-0 mt-3">
-                    <p class="mb-0 mt-sm-0 mt-1 displaying-records">Displaying 10 for 230 records</p>
+                    <p class="mb-0 mt-sm-0 mt-1 displaying-records">Displaying 10 out of  230 records</p>
                     <div class="d-flex justify-content-center align-items-center ms-sm-0 ms-2">
                         <select class="ms-sm-4 form-select input-flied gray border-0">
                             <option>5</option>
@@ -345,7 +337,7 @@
     </script>
     <footer class="mxc">
         <div class="mtc rounded-3 p-1 gap-2 bg-primary">
-            <h5 class="text-white">CU BSU portal</h5>
+            <h5 class="text-white">CUI BUS Portal</h5>
         </div>
     </footer>
 
