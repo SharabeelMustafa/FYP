@@ -110,10 +110,13 @@
         <div class="col-7 rounded-3">
           <div class="border-bottom border-white"><h1 style="color: #FFFFFF;">Route Info</h1></div>
           <div class="row overflow-auto flex-nowrap overflow-x-scroll" style="height: 300px;">
+            
             <% route.forEach( r => { %>
-              <div class="border mx-2 my-3 bg-white d-flex justify-content-center align-items-center" style="width:170px; height: 250px;">
+            
+              <a class="border mx-2 my-3 bg-white d-flex justify-content-center align-items-center" style="width:170px; height: 250px;">
                 <h3>Route.<%= r.r_id %></h3>
-              </div>
+              </a>
+             
             <% }); %>
           </div>
         </div>
@@ -167,8 +170,9 @@
               <div class="col-6">
                 <div class="mb-2">
                   <label for="" class="form-label regular small">Registration Number</label>
-                  <input type="text" class="form-control" name="reg_no"  placeholder="Please Enter"/>
+                  <input type="text" class="form-control" name="reg_no" id="reg_number"  placeholder="Please Enter"/>
                 </div>
+
               </div>
               <div class="col-6">
                 <div class="mb-2">
@@ -206,6 +210,11 @@
       </div>
     </div>
 
+
+   
+
+
+
     <script>
       document.getElementById('admin-btn').addEventListener('click', function() {
         document.getElementById('stu_form').classList.add('hidden');
@@ -236,6 +245,27 @@
       document.getElementById('hide-signup').addEventListener('click', function() {
         document.getElementById('signup-overlay').style.display = 'none';
       });
+      
+    
+
+
+
+      function validateForm(event) {
+            const regNumber = document.getElementById('reg_number').value;
+            const regExp = /^(SP|FA)\d{2}-(B|M|P)(SE|CS|EE|CE|ME|BB)-\d{3}$/;
+
+            if (!regExp.test(regNumber)) {
+                alert('Invalid Registration Number. It should be in the form SP21-BCS-054.');
+                event.preventDefault(); // Prevent form submission
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            form.addEventListener('submit', validateForm);
+        });
+
+
     </script>
   </body>
 </html>

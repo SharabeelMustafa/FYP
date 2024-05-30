@@ -107,37 +107,44 @@ app.post('/admin/login/confirm', (req, res) => {
   const { username, password } = req.body;
   const selectQuery = 'SELECT * FROM admin WHERE username = ?';
   con.query(selectQuery, [username], (err, result) => {
-      if (err) throw err;
-      if (result.length > 0) {
-          bcrypt.compare(password, result[0].password, (err, bcryptResult) => {
-              if (err) throw err;
-              if (password == result[0].password) {
-                  req.session.isAdmin = true;
+    if (err) throw err;
+    if (result.length > 0) {
+      bcrypt.compare(password, result[0].password, (err, bcryptResult) => {
+        if (err) throw err;
+        if (password == result[0].password) {
+          req.session.isAdmin = true;
 
-                  req.session.adminId = result[0].a_id;
-                   console.log(result[0].a_id);
-                  res.redirect('/admin_dashboard');
-              } else {
-                  res.send('Incorrect password');
-              }
-          });
-      } else {
-          res.send('Admin not found');
-      }
+          req.session.adminId = result[0].a_id;
+          console.log(result[0].a_id);
+          res.redirect('/admin_dashboard');
+        } else {
+          res.send('Incorrect password');
+        }
+      });
+    } else {
+      res.send('Admin not found');
+    }
   });
 });
 
+app.get('/dell_si_notif/:N_Id', function (req, res) {
+  const n_Id = req.params.N_Id;
+  //const userId = req.session.userId; // Current user's ID
+  con.query('DELETE FROM si_notification WHERE sin_id = ?', [n_Id], (err) => {
+    if (err) throw err;
+    res.redirect('/student_dashboard');
+  });
+})
 
-
-app.get('/admin_dashboard',checkAdminSession,function(req,res){
-  const ad =req.session.adminId;
+app.get('/admin_dashboard', checkAdminSession, function (req, res) {
+  const ad = req.session.adminId;
 
   console.log(ad);
-  con.query('SELECT * FROM ai_notification WHERE a_id = ?',[ad],function(err,result1){
-    if(err) throw err;
-    res.render('admin_dashboard',{notif : result1});
-  } );
-  
+  con.query('SELECT * FROM ai_notification WHERE a_id = ?', [ad], function (err, result1) {
+    if (err) throw err;
+    res.render('admin_dashboard', { notif: result1 });
+  });
+
 });
 
 
@@ -384,7 +391,7 @@ app.get('/add_bus_data', checkAdminSession, function (req, res) {
 });
 
 
-app.post('/signup_bus_by_admin', checkAdminSession, upload.single('profileImage'), async (req, res) => {
+app.post('/signup_bus_by_admin', checkAdminSession, async (req, res) => {
 
   // console.log(req.body);
   // console.log(req.file);
@@ -451,16 +458,149 @@ app.post('/signup_driver_by_admin', checkAdminSession, upload.single('profileIma
 });
 
 app.get('/add_route_data', checkAdminSession, function (req, res) {
-  con.query('SELECT * FROM driver', function (err, result) {
+  con.query('SELECT * FROM route', function (err, result) {
     if (err) throw err;
+    con.query('SELECT * FROM stops', function (err, result1) {
+      if (err)
+        throw err;
+      res.render('admin_route_data', { rou: result, stu: result1 });
 
-    res.render('route_data', { stu: result });
-
+    });
 
   });
 
 });
 
+
+app.post('/signup_route_by_admin', checkAdminSession, async (req, res) => {
+
+  // console.log(req.body);
+  // console.log(req.file);
+
+  // return res.redirect("/add_stu_data");
+
+  const { route_name, route_fee } = req.body;
+
+
+  //const hashedPassword = await bcrypt.hash(password, 10);
+
+
+  const sql = 'INSERT INTO route (route_name, fee) VALUES (?, ?)';
+
+  const values = [route_name, route_fee];
+
+  con.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error inserting data into the database:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    res.redirect('/add_route_data');
+  });
+
+});
+
+// app.post('/signup_stops_by_admin', checkAdminSession, async (req, res) => {
+
+//   console.log(req.body);
+//   // console.log(req.file);
+
+//   // return res.redirect("/add_stu_data");
+
+//   const { route_no, stop_name, pickup_time, drop_time } = req.body;
+
+
+//   //const hashedPassword = await bcrypt.hash(password, 10);
+
+
+//   const sql = 'INSERT INTO stops (stop_name, pickup_time, drop_time) VALUES (?, ?, ?, ?)';
+
+//   const stops_Array = Array.isArray(stops) ? stops : [stops];
+//   const pickup_time_Array = Array.isArray(pickup_time) ? pickup_time : [pickup_time];
+//   const drop_time_Array = Array.isArray(drop_time) ? drop_time : [drop_time];
+
+//   stopsArray.forEach(stops => {
+//     const values = [route_no, stop_name, pickup_time, drop_time];
+//     con.query(sql, values, (err) => {
+//       if (err) throw err;
+//     });
+//     res.redirect('/add_route_data');
+//   });
+
+// });
+
+app.post('/signup_stops_by_admin', checkAdminSession, async (req, res) => {
+  console.log(req.body);
+
+  const stops = [];
+  const { route_no } = req.body;
+
+  // Assuming stops are indexed starting from 0 and incrementing sequentially
+  let i = 0;
+  while (req.body[`stops[${i}][stop_name]`] !== undefined) {
+    const stop = {
+      stop_name: req.body[`stops[${i}][stop_name]`],
+      pickup_time: req.body[`stops[${i}][pickup_time]`],
+      drop_time: req.body[`stops[${i}][drop_time]`]
+    };
+    stops.push(stop);
+    i++;
+  }
+
+  stops.forEach(stop => {
+    const { stop_name, pickup_time, drop_time } = stop;
+    const values = [route_no, stop_name, pickup_time, drop_time];
+    const sql = 'INSERT INTO stops (r_id, stop_name, pickup_time, drop_time) VALUES (?, ?, ?, ?)';
+
+    con.query(sql, values, (err) => {
+      if (err) throw err;
+    });
+  });
+
+  res.redirect('/add_route_data');
+});
+
+// app.post('/signup_stops_by_admin', checkAdminSession, async (req, res) => {
+//   console.log(req.body);
+
+//   const route_no = req.body.route_no;
+//   const stops = [];
+
+//   // Extract stop information from req.body
+//   const stopNames = req.body['stops[0][stop_name]'];
+//   const pickupTimes = req.body['stops[0][pickup_time]'];
+//   const dropTimes = req.body['stops[0][drop_time]'];
+
+//   // Check if we have arrays for stops
+//   if (Array.isArray(stopNames) && Array.isArray(pickupTimes) && Array.isArray(dropTimes)) {
+//       for (let i = 0; i < stopNames.length; i++) {
+//           stops.push({
+//               stop_name: stopNames[i],
+//               pickup_time: pickupTimes[i],
+//               drop_time: dropTimes[i]
+//           });
+//       }
+//   } else {
+//       // Handle case when there's only one stop (the values would not be arrays)
+//       stops.push({
+//           stop_name: stopNames,
+//           pickup_time: pickupTimes,
+//           drop_time: dropTimes
+//       });
+//   }
+
+//   // Insert stops into the database
+//   stops.forEach(stop => {
+//       const { stop_name, pickup_time, drop_time } = stop;
+//       const values = [route_no, stop_name, pickup_time, drop_time];
+//       const sql = 'INSERT INTO stops (r_id, stop_name, pickup_time, drop_time) VALUES (?, ?, ?, ?)';
+      
+//       con.query(sql, values, (err) => {
+//           if (err) throw err;
+//       });
+//   });
+
+//   res.redirect('/add_route_data');
+// });
 
 app.get('/admin/logout', (req, res) => {
   req.session.destroy((err) => {
@@ -563,11 +703,6 @@ app.get('/student/logout', (req, res) => {
     res.redirect('/');
   });
 });
-
-
-
-
-
 
 
 app.listen(3000);
