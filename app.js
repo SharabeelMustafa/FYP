@@ -131,19 +131,7 @@ app.get('/admin_dashboard',checkAdminSession,function(req,res){
   res.render('admin_dashboard');
 })
 
-app.get('/add_stu_data',checkAdminSession,function(req,res){
-  con.query('SELECT * FROM student',function(err,result){
-    if(err) throw err;
-    
-    con.query('SELECT * FROM bus',function(err,result2){
-      if(err) throw err;
-      
-      res.render('admin_student_data',{stu: result, bus : result2});
-    });
 
-  });
-   
-})
 
 app.get('/admin_sn' ,checkAdminSession,function(req,res){
   con.query('SELECT * FROM student',function(err,result){
@@ -275,7 +263,19 @@ app.post('/send_notification_bc',checkAdminSession, function(req, res) {
 });
 
 
+app.get('/add_stu_data',checkAdminSession,function(req,res){
+  con.query('SELECT * FROM student',function(err,result){
+    if(err) throw err;
+    
+    con.query('SELECT * FROM bus',function(err,result2){
+      if(err) throw err;
+      
+      res.render('admin_student_data',{stu: result, bus : result2});
+    });
 
+  });
+   
+})
 
 
 app.post('/signup_stu_by_admin', checkAdminSession,upload.single('profileImage'), async (req, res) => {
@@ -286,7 +286,7 @@ app.post('/signup_stu_by_admin', checkAdminSession,upload.single('profileImage')
   // return res.redirect("/add_stu_data");
 
   const { name, reg_no, contact, bus_id, email, password } = req.body;
-  const profileImage = req.file.filename;
+  const profileImage = req.file.profileImage;
 
 
   //const hashedPassword = await bcrypt.hash(password, 10);
@@ -308,7 +308,52 @@ app.post('/signup_stu_by_admin', checkAdminSession,upload.single('profileImage')
 });
 
 
+app.get('/add_faculty_data',checkAdminSession,function(req,res){
+  con.query('SELECT * FROM facality',function(err,result){
+    if(err) throw err;
+    
+    con.query('SELECT * FROM bus',function(err,result2){
+      if(err) throw err;
+      
+      res.render('faculty_data',{stu: result, bus : result2});
+    });
 
+  });
+   
+})
+
+
+app.get('/add_bus_data', checkAdminSession, function (req, res) {
+  const query = `SELECT bus.*,driver.name AS driver_name FROM bus JOIN driver ON Bus.driver_emp_id = Driver.emp_id;`;
+
+  con.query(query, function (err, result) {
+    if (err) throw err;
+    res.render('bus_data', { stu: result });
+  });
+});
+
+
+app.get('/add_driver_data',checkAdminSession,function(req,res){
+  con.query('SELECT * FROM driver',function(err,result){
+    if(err) throw err;
+    
+      res.render('driver_data',{stu: result});
+  
+
+  });
+   
+})
+
+app.get('/add_route_data',checkAdminSession,function(req,res){
+  con.query('SELECT * FROM driver',function(err,result){
+    if(err) throw err;
+    
+      res.render('route_data',{stu: result});
+  
+
+  });
+   
+})
 
 
 app.get('/admin/logout', (req, res) => {
@@ -411,6 +456,11 @@ app.get('/student/logout', (req, res) => {
     res.redirect('/');
   });
 });
+
+
+
+
+
 
 
 app.listen(3000);

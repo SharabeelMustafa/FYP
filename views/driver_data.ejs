@@ -61,7 +61,7 @@
                 <a href="/add_bus_data" class="text-decoration-none">
                     <div class="d-flex justify-content-between bg-primary rounded-3 mt-2 py-4 card-shadow">
                         <div class="mx-2">
-                            <h44 class="text-white">Bus</h44>
+                            <h44 class="text-white">On Bus</h44>
                         </div>
                         <div class="me-2">
                             <img width="40px" height="30px" src="assets/images/buslogo.png" alt="" />
@@ -107,7 +107,7 @@
                         <svg class="PlusIcon">
                             <use href="assets/images/listing/plus.svg#plus-icon"></use>
                         </svg>
-                        Add Student
+                        Add Driver
                     </button>
                 </div>
             </div>
@@ -121,7 +121,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                     <div class="modal-content">
                         <div class="modal-header p-4">
-                            <h5 class="modal-title" id="staticBackdropLabel">Create Student Data</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Create Driver Data</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         
@@ -134,37 +134,25 @@
                                     <form action="/signup_stu_by_admin"  method="POST"  enctype="multipart/form-data" > 
                                      
                                     
-                                        <label class="form-label mb-1">Student Name</label>
+                                        <label class="form-label mb-1">Driver Name</label>
                                     <input type="text" class="form-control mb-1 border-0 bg-body"
                                         placeholder="Please Enter" name="name">
                                         
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
-                                    <label class="form-label mb-1">Registration Number</label>
-                                    <input type="text" class="form-control mb-1 border-0 bg-body" 
-                                        placeholder="Please Enter" name="reg_no">
-
-                                        
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <label class="form-label mb-1">Email</label>
+                                    <label class="form-label mb-1">Driver Employee Id</label>
                                     <input type="text" class="form-control mb-1 border-0 bg-body"
                                         placeholder="Please Enter" name="email">
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-12">
-                                    <label class="form-label mb-1">Contact</label>
+                                    <label class="form-label mb-1">Driver Email</label>
+                                    <input type="text" class="form-control mb-1 border-0 bg-body"
+                                        placeholder="Please Enter" name="email">
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <label class="form-label mb-1">Driver Contact</label>
                                     <input type="text" class="form-control mb-1 border-0 bg-body"
                                         placeholder="Please Enter" name="contact">
-                                </div>
-
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <label class="form-label mb-1">BUS</label>
-                                    <select class="form-control mb-1 border-0 bg-body" name="bus_id">
-                                        <% bus.forEach( b =>{  %>
-                                        <option><%=b.bus_id%></option>
-                                        <% }); %>
-                                    </select>
-                                    
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-12">
@@ -221,15 +209,11 @@
                     <thead class="Employees-border sticky-top bg-white" style="z-index: 1 !important">
                         <tr class="small">
                             <th scope="col" class="pb-3 ps-4 dashed-border-bottom">#</th>
-                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Student Name
-                            </th>
-                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Registration Number
+                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Driver Name
                             </th>
                             <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Contact
                             </th>
                             <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Email
-                            </th>
-                            <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">BUS
                             </th>
                             <th scope="col" class="pb-3 dashed-border-bottom" style="min-width: 150px">Password
                             </th>
@@ -243,10 +227,8 @@
                            
                             <th scope="row" class="ps-4 pe-2"><%= ++a %></th>
                             <td><%=s.name %></td>
-                            <td><%=s.reg_number %></td>
                             <td><%=s.contact %></td>
                             <td><%=s.email %></td>
-                            <td><%=s.bus_id %></td>
                             <td><%=s.password %></td>
                             <td class="d-flex justify-content-evenly">
                                 <button
