@@ -7,7 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="Style/panal_style.css">
     <title>Demo 2</title>
+
+    
 </head>
 
 <body>
@@ -101,7 +104,66 @@
     </div>
   
 
+    <!-- Signup Overlay -->
+    <div class="overlay" id="signup-overlay">
+        <div class="overlay-content">
+          <button class="close-btn" id="close-signup">&times;</button>
+          <div class="text-center">
+            <img src="./assets/images/logo1.png" width="150px" height="150px" alt="">
+            <h2 class="mb-0">Create a new account</h2>
+            <p class="small">Already have an account? <span><a href="#" id="hide-signup" class="text-danger">Sign-in here</a></span></p>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="" class="form-label regular small">First Name</label>
+                <input type="text" class="form-control" placeholder="Please Enter"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="" class="form-label regular small">Last Name</label>
+                <input type="text" class="form-control" placeholder="Please Enter"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="" class="form-label regular small">Username or email address</label>
+                <input type="text" class="form-control" placeholder="Please Enter"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="" class="form-label regular small">Phone Number</label>
+                <input type="text" class="form-control" placeholder="Please Enter"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="" class="form-label regular small">Password</label>
+                <input type="password" class="form-control" placeholder="Please Enter"/>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="" class="form-label regular small">Confirm Password</label>
+                <input type="password" class="form-control" placeholder="Please Enter"/>
+              </div>
+            </div>
+            <div class="d-flex justify-content-evenly align-items-center pt-5 mt-3">
+              <button class="btn btn-danger px-5 w-75 text-white bg-color">SignUp</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
     </div>
+
+
+    <input type="hidden"  id="show-signup" class="mxc1 text-danger" value="0"> 
+
+
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="assets/js/jquery-3.6.3.min.js"></script>
@@ -112,6 +174,20 @@
     <script>
         
         $("#some-menu").load("navbars_stu.ejs");
+
+
+        const b =document.getElementById('show-signup');
+        const a = b.value;
+       
+        if(a==0){
+            document.getElementById('signup-overlay').style.display = 'none';
+        }else{
+            
+            document.getElementById('signup-overlay').style.display = 'flex';
+        }
+
+       
+      
     </script>
    
    <footer class="mxc">

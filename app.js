@@ -5,12 +5,9 @@ const session = require('express-session');
 const multer = require('multer');
 const path = require('path');
 
+let RESS;
+let RESS1;
 //app.use(express.static(path.join(__dirname,'public')));
-
-
-
-
-
 
 // Multer configuration
 const storage = multer.diskStorage({
@@ -83,7 +80,7 @@ app.use(session({
 app.get('/', function (req, res) {
 
 
-  con.query('SELECT * FROM driver', function (err, result) {
+  con.query('SELECT bus.*,driver.name AS driver_name ,driver.contact AS driver_con FROM bus JOIN driver ON Bus.driver_emp_id = Driver.emp_id;', function (err, result) {
     if (err) throw err;
     con.query('SELECT * FROM route', function (err, result1) {
       if (err) throw err;
@@ -92,6 +89,9 @@ app.get('/', function (req, res) {
 
   })
 })
+
+
+
 
 
 // app.get('/stu_singup',function (req,res){
@@ -127,14 +127,57 @@ app.post('/admin/login/confirm', (req, res) => {
   });
 });
 
-app.get('/dell_si_notif/:N_Id', function (req, res) {
+// app.get('/show_rount/:N_Id', function (req, res) {
+//   const n_Id = req.params.N_Id;
+  
+//    con.query('SELECT * FROM route WHERE r_id = ?',[n_Id],function(err,result){
+//        if(err) throw err;
+//        con.query('SELECT * FROM stops WHERE r_id= ?',[n_Id],function(err,result1){
+//               if(err) throw err ;
+             
+//               res.render('student_singup',{rou: result , stu: result1 });
+//        });
+
+//    });
+
+// });
+
+app.get('/challan',function(req,res){
+  res.render('challan');
+
+});
+
+app.get('/show_rount/:N_Id', function (req, res) {
   const n_Id = req.params.N_Id;
-  //const userId = req.session.userId; // Current user's ID
-  con.query('DELETE FROM si_notification WHERE sin_id = ?', [n_Id], (err) => {
-    if (err) throw err;
-    res.redirect('/student_dashboard');
+  
+  con.query('SELECT * FROM route WHERE r_id = ?', [n_Id], function(err, result) {
+      if (err) {
+          console.error("Error fetching route data:", err);
+          return res.status(500).send("Server Error");
+      }
+      con.query('SELECT * FROM stops WHERE r_id= ?', [n_Id], function(err, result1) {
+          if (err) {
+              console.error("Error fetching stops data:", err);
+              return res.status(500).send("Server Error");
+          }
+          RESS = result; 
+          RESS1= result1;
+          res.redirect('/di_dond_k_dakho');
+          
+      });
   });
-})
+});
+
+
+app.get('/di_dond_k_dakho', function (req, res) {
+  RESS
+  RESS1
+
+ res.render('rount_show',{ rou:RESS , stu:RESS1});
+
+});
+
+
 
 app.get('/admin_dashboard', checkAdminSession, function (req, res) {
   const ad = req.session.adminId;
@@ -559,6 +602,17 @@ app.post('/signup_stops_by_admin', checkAdminSession, async (req, res) => {
   res.redirect('/add_route_data');
 });
 
+
+
+app.get('/dell_ai_notif/:N_Id', function (req, res) {
+  const n_Id = req.params.N_Id;
+  //const userId = req.session.userId; // Current user's ID
+  con.query('DELETE FROM ai_notification WHERE ain_id = ?', [n_Id], (err) => {
+    if (err) throw err;
+    res.redirect('/admin_dashboard');
+  });
+})
+
 // app.post('/signup_stops_by_admin', checkAdminSession, async (req, res) => {
 //   console.log(req.body);
 
@@ -676,6 +730,7 @@ app.post('/login/confirm', (req, res) => {
 app.get('/student_dashboard', function (req, res) {
   const userId = req.session.userId;
   //console.log(userId);
+
   const selectQuery_student = 'SELECT * FROM student WHERE reg_number = ?';
   con.query(selectQuery_student, [userId], (err, result) => {
     if (err) throw err;
@@ -685,7 +740,7 @@ app.get('/student_dashboard', function (req, res) {
       if (err) throw err;
       //console.log(result);
 
-
+      
       const currentDate = new Date()
       res.render("student_dashboard", { student: result[0], notification: result1, currentDate });
     });
@@ -693,6 +748,35 @@ app.get('/student_dashboard', function (req, res) {
 
 })
 
+
+// app.get('/student_dashboard', function (req, res) {
+//   const userId = req.session.userId;
+//   //console.log(userId);
+//   const selectQuery_student = 'SELECT * FROM student WHERE reg_number = ?';
+//   con.query(selectQuery_student, [userId], (err, result) => {
+//     if (err) throw err;
+//     //console.log(result);
+//     const selectQuery_si_notification = 'SELECT * FROM si_notification WHERE reg_number = ? ';
+//     const selectQuery_reg = 'SELECT * FROM s_registration WHERE reg_number = ? ';
+//     con.query(selectQuery_si_notification, [userId], (err, result1) => {
+//       if (err) throw err;
+//       //console.log(result);
+//       let chake;
+//     con.query('selectQuery_reg',[userId],(err,result6)=>{
+//       if(err) throw err;     
+//       if(result6.length > 0){
+//                chake=0;
+//             }else{
+//               chake=1;
+//             }
+//       });
+//       const ch=chake; 
+//       const currentDate = new Date();
+//       res.render("student_dashboard", { student: result[0], notification: result1 ,currentDate });
+//     });
+//   });
+
+// })
 
 app.get('/student/logout', (req, res) => {
   req.session.destroy((err) => {

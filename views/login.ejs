@@ -113,8 +113,8 @@
             
             <% route.forEach( r => { %>
             
-              <a class="border mx-2 my-3 bg-white d-flex justify-content-center align-items-center" style="width:170px; height: 250px;">
-                <h3>Route.<%= r.r_id %></h3>
+              <a href="/show_rount/<%=r.r_id%>" class="text-decoration-none border mx-2 my-3 bg-white d-flex justify-content-center align-items-center" style="width:170px; height: 250px;">
+                <h3 style="color: black;">Route.<%= r.r_id %></h3>
               </a>
              
             <% }); %>
@@ -126,7 +126,7 @@
             <% driver.forEach(d => { %>
               <div class="d-flex mx-2 my-3 bg-white p-2">
                 <div><img width="80px" height="90px" class="rounded-3 mx-2" src="./src/driver.jpeg" alt=""></div>
-                <div><h4><%= d.name %></h4><p><%= d.contact %></p></div>
+                <div><h4><%= d.driver_name %></h4>  <%= d.driver_con %> <br> <p> <b>bus :</b> <%= d.bus_id %></p></div>
               </div>
             <% }); %>
           </div>
